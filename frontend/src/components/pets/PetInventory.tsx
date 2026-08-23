@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import type { Pet, PetInput } from '../../types/pet';
 import { petService } from '../../services/petService';
 import { StatusBadge } from '../common/StatusBadge';
-import { Plus, Edit2, Trash2, Search, AlertCircle, RefreshCw } from 'lucide-react';
+import { Plus, Edit2, Trash2, Search, X, AlertCircle, RefreshCw, Activity, Heart, Sparkles, Clock } from 'lucide-react';
 import { PetModal } from './PetModal';
 
 export const PetInventory: React.FC = () => {
@@ -74,19 +74,76 @@ export const PetInventory: React.FC = () => {
     pet.especie.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const totalCount = pets.length;
+  const availableCount = pets.filter((p) => p.estado_adopcion === 'disponible').length;
+  const inProcessCount = pets.filter((p) => p.estado_adopcion === 'en proceso').length;
+  const adoptedCount = pets.filter((p) => p.estado_adopcion === 'adoptado').length;
+
   return (
     <div className="p-8 space-y-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 font-bold shrink-0">
+            <Activity size={20} className="text-teal-600" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Rescates</p>
+            <p className="text-xl font-bold text-slate-800">{totalCount}</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
+            <Sparkles size={20} />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Disponibles</p>
+            <p className="text-xl font-bold text-emerald-700">{availableCount}</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 shrink-0">
+            <Clock size={20} />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">En Proceso</p>
+            <p className="text-xl font-bold text-amber-700">{inProcessCount}</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600 shrink-0">
+            <Heart size={20} />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Adoptados</p>
+            <p className="text-xl font-bold text-purple-700">{adoptedCount}</p>
+          </div>
+        </div>
+      </div>
+
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
         <div className="relative flex-1 w-full">
-          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+          <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true" />
           <input
             type="search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Buscar por nombre, especie o raza..."
             aria-label="Buscar mascotas en el inventario"
-            className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+            className="w-full pl-10 pr-10 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all"
           />
+          {searchTerm && (
+            <button
+              type="button"
+              onClick={() => setSearchTerm('')}
+              aria-label="Limpiar búsqueda"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 rounded-md"
+            >
+              <X size={16} aria-hidden="true" />
+            </button>
+          )}
         </div>
 
         <button
@@ -95,7 +152,7 @@ export const PetInventory: React.FC = () => {
             setEditingPet(null);
             setIsModalOpen(true);
           }}
-          className="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors shadow-xs shrink-0 focus:outline-hidden focus:ring-2 focus:ring-teal-500"
+          className="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-medium py-2.5 px-4 rounded-lg text-sm transition-colors shadow-xs shrink-0 focus:outline-hidden focus:ring-2 focus:ring-teal-500"
         >
           <Plus size={16} aria-hidden="true" />
           <span>Nueva Mascota</span>
@@ -138,7 +195,7 @@ export const PetInventory: React.FC = () => {
           <tbody className="divide-y divide-slate-100">
             {loading ? (
               <tr>
-                <td colSpan={7} className="py-8 text-center text-slate-400">
+                <td colSpan={7} className="py-12 text-center text-slate-400">
                   <div className="flex justify-center items-center gap-2">
                     <RefreshCw size={18} className="animate-spin text-teal-600" />
                     <span>Cargando inventario médico...</span>
@@ -147,7 +204,7 @@ export const PetInventory: React.FC = () => {
               </tr>
             ) : filteredPets.length === 0 ? (
               <tr>
-                <td colSpan={7} className="py-8 text-center text-slate-400">
+                <td colSpan={7} className="py-12 text-center text-slate-400">
                   No hay registros de mascotas disponibles.
                 </td>
               </tr>
@@ -155,9 +212,12 @@ export const PetInventory: React.FC = () => {
               filteredPets.map((pet) => (
                 <tr key={pet.id} className="hover:bg-slate-50/80 transition-colors">
                   <td className="py-3 px-4 font-mono text-xs text-slate-400">#{pet.id}</td>
-                  <td className="py-3 px-4 font-semibold text-slate-800">{pet.nombre}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800 flex items-center gap-2">
+                    <span>{pet.especie.toLowerCase() === 'gato' ? '🐱' : pet.especie.toLowerCase() === 'perro' ? '🐶' : '🐾'}</span>
+                    <span>{pet.nombre}</span>
+                  </td>
                   <td className="py-3 px-4 text-slate-600">{pet.especie} · {pet.raza}</td>
-                  <td className="py-3 px-4 text-slate-600 max-w-xs truncate">{pet.estado_salud}</td>
+                  <td className="py-3 px-4 text-slate-600 max-w-xs truncate font-medium">{pet.estado_salud}</td>
                   <td className="py-3 px-4"><StatusBadge status={pet.estado_adopcion} /></td>
                   <td className="py-3 px-4 text-slate-500 text-xs">{new Date(pet.fecha_ingreso).toLocaleDateString()}</td>
                   <td className="py-3 px-4 text-right space-x-2">

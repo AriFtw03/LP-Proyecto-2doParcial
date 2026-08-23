@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import type { AdoptionRequest, RequestStatus } from '../../types/adoption';
 import { adoptionService } from '../../services/adoptionService';
-import { Trash2, Filter, AlertCircle, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { Trash2, Filter, AlertCircle, RefreshCw, CheckCircle2, HeartHandshake, Clock, Sparkles, XCircle, Mail, User } from 'lucide-react';
 
 export const AdoptionList: React.FC = () => {
   const [requests, setRequests] = useState<AdoptionRequest[]>([]);
@@ -76,8 +76,55 @@ export const AdoptionList: React.FC = () => {
     }
   };
 
+  const totalCount = requests.length;
+  const pendingCount = requests.filter((r) => r.estado_solicitud === 'pendiente').length;
+  const approvedCount = requests.filter((r) => r.estado_solicitud === 'aprobada').length;
+  const rejectedCount = requests.filter((r) => r.estado_solicitud === 'rechazada').length;
+
   return (
     <div className="p-8 space-y-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 font-bold shrink-0">
+            <HeartHandshake size={20} className="text-teal-600" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Trámites</p>
+            <p className="text-xl font-bold text-slate-800">{totalCount}</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 shrink-0">
+            <Clock size={20} />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Pendientes</p>
+            <p className="text-xl font-bold text-amber-700">{pendingCount}</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
+            <Sparkles size={20} />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Aprobadas</p>
+            <p className="text-xl font-bold text-emerald-700">{approvedCount}</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center text-rose-600 shrink-0">
+            <XCircle size={20} />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Rechazadas</p>
+            <p className="text-xl font-bold text-rose-700">{rejectedCount}</p>
+          </div>
+        </div>
+      </div>
+
       <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-xl border border-slate-200 shadow-xs gap-4">
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <Filter size={18} className="text-slate-400 shrink-0" aria-hidden="true" />
@@ -88,12 +135,12 @@ export const AdoptionList: React.FC = () => {
             id="adoption-filter"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-1.5 border border-slate-200 rounded-lg text-sm bg-white focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+            className="px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
           >
-            <option value="all">Todas las solicitudes</option>
-            <option value="pendiente">Pendientes</option>
-            <option value="aprobada">Aprobadas</option>
-            <option value="rechazada">Rechazadas</option>
+            <option value="all">Todas las solicitudes ({totalCount})</option>
+            <option value="pendiente">Pendientes ({pendingCount})</option>
+            <option value="aprobada">Aprobadas ({approvedCount})</option>
+            <option value="rechazada">Rechazadas ({rejectedCount})</option>
           </select>
         </div>
       </div>
@@ -119,7 +166,7 @@ export const AdoptionList: React.FC = () => {
       )}
 
       {successMessage && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2 text-emerald-700 text-sm">
+        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2 text-emerald-700 text-sm animate-fadeIn">
           <CheckCircle2 size={18} className="shrink-0" />
           <span>{successMessage}</span>
         </div>
@@ -141,7 +188,7 @@ export const AdoptionList: React.FC = () => {
           <tbody className="divide-y divide-slate-100">
             {loading ? (
               <tr>
-                <td colSpan={7} className="py-8 text-center text-slate-400">
+                <td colSpan={7} className="py-12 text-center text-slate-400">
                   <div className="flex justify-center items-center gap-2">
                     <RefreshCw size={18} className="animate-spin text-teal-600" />
                     <span>Cargando solicitudes de adopción...</span>
@@ -150,7 +197,7 @@ export const AdoptionList: React.FC = () => {
               </tr>
             ) : requests.length === 0 ? (
               <tr>
-                <td colSpan={7} className="py-8 text-center text-slate-400">
+                <td colSpan={7} className="py-12 text-center text-slate-400">
                   No hay solicitudes registradas con los filtros seleccionados.
                 </td>
               </tr>
@@ -158,8 +205,16 @@ export const AdoptionList: React.FC = () => {
               requests.map((req) => (
                 <tr key={req.id} className="hover:bg-slate-50/80 transition-colors">
                   <td className="py-3 px-4 font-mono text-xs text-slate-400">#{req.id}</td>
-                  <td className="py-3 px-4 font-semibold text-slate-800">{req.nombre_solicitante}</td>
-                  <td className="py-3 px-4 text-slate-600 font-mono text-xs">{req.correo_contacto}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800 flex items-center gap-1.5">
+                    <User size={14} className="text-slate-400 shrink-0" />
+                    <span>{req.nombre_solicitante}</span>
+                  </td>
+                  <td className="py-3 px-4 text-slate-600 font-mono text-xs">
+                    <div className="flex items-center gap-1.5">
+                      <Mail size={13} className="text-slate-400 shrink-0" />
+                      <span>{req.correo_contacto}</span>
+                    </div>
+                  </td>
                   <td className="py-3 px-4 text-slate-800 font-medium">
                     {req.mascota_nombre || `ID #${req.mascota_id}`}
                     {req.mascota_especie && (
@@ -174,7 +229,7 @@ export const AdoptionList: React.FC = () => {
                       value={req.estado_solicitud}
                       onChange={(e) => handleStatusChange(req.id, e.target.value as RequestStatus)}
                       aria-label={`Estado de solicitud #${req.id}`}
-                      className="text-xs font-medium px-2 py-1 border border-slate-200 rounded-lg bg-white focus:outline-hidden focus:ring-1 focus:ring-teal-500"
+                      className="text-xs font-semibold px-2.5 py-1.5 border border-slate-200 rounded-lg bg-white focus:outline-hidden focus:ring-2 focus:ring-teal-500"
                     >
                       <option value="pendiente">Pendiente</option>
                       <option value="aprobada">Aprobada</option>

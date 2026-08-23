@@ -90,15 +90,38 @@ export const ShiftModal: React.FC<ShiftModalProps> = ({ isOpen, onClose, onSubmi
           <label htmlFor={taskId} className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
             Tarea Asignada *
           </label>
-          <input
-            id={taskId}
-            type="text"
-            required
-            value={tareaAsignada}
-            onChange={(e) => setTareaAsignada(e.target.value)}
-            placeholder="Ej: Paseo matutino, apoyo veterinario"
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
-          />
+          <div className="space-y-2">
+            <select
+              id={taskId}
+              value={
+                ['Paseo de perros', 'Limpieza de caniles y gateras', 'Alimentación y cuidados', 'Apoyo en atención veterinaria', 'Recepción de visitas y adopciones'].includes(tareaAsignada)
+                  ? tareaAsignada
+                  : 'otro'
+              }
+              onChange={(e) => {
+                if (e.target.value !== 'otro') {
+                  setTareaAsignada(e.target.value);
+                }
+              }}
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+            >
+              <option value="Paseo de perros">🐕 Paseo de perros</option>
+              <option value="Limpieza de caniles y gateras">🧹 Limpieza de caniles y gateras</option>
+              <option value="Alimentación y cuidados">🍲 Alimentación y cuidados</option>
+              <option value="Apoyo en atención veterinaria">🩺 Apoyo en atención veterinaria</option>
+              <option value="Recepción de visitas y adopciones">👋 Recepción de visitas y adopciones</option>
+              <option value="otro">✏️ Otra tarea personalizada...</option>
+            </select>
+
+            <input
+              type="text"
+              required
+              value={tareaAsignada}
+              onChange={(e) => setTareaAsignada(e.target.value)}
+              placeholder="Descripción de la tarea asignada"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">

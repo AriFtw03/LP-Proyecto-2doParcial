@@ -79,18 +79,23 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, p
           </div>
         )}
 
-        <div className="p-3 bg-slate-50 rounded-lg border border-slate-100 flex items-center gap-3">
-          <span className="text-2xl select-none" role="img" aria-label={pet.especie}>
-            {pet.especie.toLowerCase() === 'gato' ? '🐱' : '🐶'}
-          </span>
-          <div>
-            <p className="font-semibold text-slate-800 text-sm">{pet.nombre}</p>
-            <p className="text-xs text-slate-500">{pet.especie} · {pet.raza}</p>
+        <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-3xl select-none" role="img" aria-label={pet.especie}>
+              {pet.especie.toLowerCase() === 'gato' ? '🐱' : '🐶'}
+            </span>
+            <div>
+              <p className="font-bold text-slate-800 text-sm">{pet.nombre}</p>
+              <p className="text-xs text-slate-500 font-medium">{pet.especie} · {pet.raza}</p>
+            </div>
           </div>
+          <span className="font-mono text-xs bg-white px-2.5 py-1 rounded-md border border-slate-200 text-slate-600 font-semibold">
+            ID #{pet.id}
+          </span>
         </div>
 
         <div>
-          <label htmlFor={nameId} className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+          <label htmlFor={nameId} className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
             Nombre Completo del Solicitante *
           </label>
           <input
@@ -100,12 +105,12 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, p
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
             placeholder="Ej: Carlos Mendoza"
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+            className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
           />
         </div>
 
         <div>
-          <label htmlFor={emailId} className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+          <label htmlFor={emailId} className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
             Correo Electrónico de Contacto *
           </label>
           <input
@@ -115,7 +120,7 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, p
             value={correo}
             onChange={(e) => setCorreo(e.target.value)}
             placeholder="Ej: cmendoza@ejemplo.com"
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+            className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
           />
         </div>
 
