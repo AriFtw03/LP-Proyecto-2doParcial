@@ -191,18 +191,18 @@ export const PetCatalog: React.FC<PetCatalogProps> = ({ onAdoptClick }) => {
                     src={pet.foto_url}
                     alt={`${pet.nombre} (${pet.especie})`}
                     loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 relative z-10"
                     onError={(e) => {
                       (e.currentTarget as HTMLElement).style.display = 'none';
                     }}
                   />
                 ) : null}
-                <div className="absolute inset-0 -z-0 bg-gradient-to-tr from-slate-100 to-slate-200 flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-tr from-slate-100 to-slate-200 flex items-center justify-center z-0">
                   <span className="text-5xl select-none" role="img" aria-label={pet.especie}>
                     {pet.especie.toLowerCase() === 'gato' ? '🐱' : pet.especie.toLowerCase() === 'perro' ? '🐶' : '🐾'}
                   </span>
                 </div>
-                <div className="absolute top-3 right-3 z-10 drop-shadow-sm">
+                <div className="absolute top-3 right-3 z-20 drop-shadow-sm">
                   <StatusBadge status={pet.estado_adopcion} />
                 </div>
               </div>

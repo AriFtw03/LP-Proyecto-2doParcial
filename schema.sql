@@ -55,7 +55,7 @@ INSERT INTO mascotas (nombre, especie, raza, estado_salud, estado_adopcion, foto
 ('Coco', 'Perro', 'Caniche Toy', 'Dientes limpios, saludable', 'disponible', 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=600&q=80'),
 ('Pelusa', 'Otro', 'Conejo Mini Lop', 'Nutrición balanceada, dócil', 'disponible', 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=600&q=80'),
 ('Thor', 'Perro', 'Rottweiler', 'Entrenado, excelente temperamento', 'disponible', 'https://images.unsplash.com/photo-1567752881298-894bb81f9379?auto=format&fit=crop&w=600&q=80'),
-('Mia', 'Gato', 'Azul Ruso', 'Tratamiento preventivo al día', 'disponible', 'https://images.unsplash.com/photo-1513360309081-38f076278f9c?auto=format&fit=crop&w=600&q=80'),
+('Mia', 'Gato', 'Azul Ruso', 'Tratamiento preventivo al día', 'disponible', 'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80'),
 ('Lucas', 'Perro', 'Border Collie', 'Muy activo, vacunas completas', 'disponible', 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=600&q=80'),
 ('Tambor', 'Otro', 'Conejo Cabeza de León', 'Chequeo veterinario aprobado', 'disponible', 'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&w=600&q=80'),
 ('Jack', 'Perro', 'Jack Russell Terrier', 'Salud óptima y juguetón', 'disponible', 'https://images.unsplash.com/photo-1544568100-847a948585b9?auto=format&fit=crop&w=600&q=80'),
