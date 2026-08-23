@@ -67,6 +67,7 @@ switch ($metodo) {
         $raza = isset($datos['raza']) ? trim($datos['raza']) : 'Mestizo';
         $estado_salud = isset($datos['estado_salud']) ? trim($datos['estado_salud']) : 'No evaluado';
         $estado_adopcion = isset($datos['estado_adopcion']) ? trim($datos['estado_adopcion']) : 'disponible';
+        $foto_url = isset($datos['foto_url']) ? trim($datos['foto_url']) : null;
 
         if (empty($nombre) || empty($especie)) {
             http_response_code(400);
@@ -81,7 +82,7 @@ switch ($metodo) {
             exit;
         }
 
-        $sql = "INSERT INTO mascotas (nombre, especie, raza, estado_salud, estado_adopcion) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO mascotas (nombre, especie, raza, estado_salud, estado_adopcion, foto_url) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $pdo->prepare($sql);
         try {
             $stmt->execute([
@@ -89,7 +90,8 @@ switch ($metodo) {
                 mb_substr($especie, 0, 50),
                 mb_substr($raza, 0, 50),
                 mb_substr($estado_salud, 0, 100),
-                $estado_adopcion
+                $estado_adopcion,
+                $foto_url ? mb_substr($foto_url, 0, 255) : null
             ]);
             http_response_code(201);
             echo json_encode([
@@ -135,6 +137,7 @@ switch ($metodo) {
             $raza = isset($datos['raza']) ? trim($datos['raza']) : $actual['raza'];
             $estado_salud = isset($datos['estado_salud']) ? trim($datos['estado_salud']) : $actual['estado_salud'];
             $estado_adopcion = isset($datos['estado_adopcion']) ? trim($datos['estado_adopcion']) : $actual['estado_adopcion'];
+            $foto_url = array_key_exists('foto_url', $datos) ? ($datos['foto_url'] ? trim($datos['foto_url']) : null) : $actual['foto_url'];
 
             if (empty($nombre) || empty($especie)) {
                 http_response_code(400);
@@ -149,7 +152,7 @@ switch ($metodo) {
                 exit;
             }
 
-            $sql = "UPDATE mascotas SET nombre = ?, especie = ?, raza = ?, estado_salud = ?, estado_adopcion = ? WHERE id = ?";
+            $sql = "UPDATE mascotas SET nombre = ?, especie = ?, raza = ?, estado_salud = ?, estado_adopcion = ?, foto_url = ? WHERE id = ?";
             $stmt = $pdo->prepare($sql);
             $stmt->execute([
                 mb_substr($nombre, 0, 100),
@@ -157,6 +160,7 @@ switch ($metodo) {
                 mb_substr($raza, 0, 50),
                 mb_substr($estado_salud, 0, 100),
                 $estado_adopcion,
+                $foto_url ? mb_substr($foto_url, 0, 255) : null,
                 $id
             ]);
 

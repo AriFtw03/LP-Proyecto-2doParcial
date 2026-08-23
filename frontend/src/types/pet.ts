@@ -8,6 +8,7 @@ export interface Pet {
   raza: string;
   estado_salud: string;
   estado_adopcion: AdoptionStatus;
+  foto_url?: string | null;
   fecha_ingreso: string;
 }
 

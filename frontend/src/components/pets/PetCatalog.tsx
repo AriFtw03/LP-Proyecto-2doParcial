@@ -185,11 +185,24 @@ export const PetCatalog: React.FC<PetCatalogProps> = ({ onAdoptClick }) => {
               key={pet.id}
               className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md hover:border-slate-300 transition-all flex flex-col group"
             >
-              <div className="h-44 bg-gradient-to-tr from-slate-100 to-slate-200/80 flex items-center justify-center relative p-4 group-hover:from-teal-50/50 transition-colors">
-                <span className="text-5xl select-none transform group-hover:scale-110 transition-transform" role="img" aria-label={pet.especie}>
-                  {pet.especie.toLowerCase() === 'gato' ? '🐱' : pet.especie.toLowerCase() === 'perro' ? '🐶' : '🐾'}
-                </span>
-                <div className="absolute top-3 right-3">
+              <div className="h-48 bg-slate-100 relative overflow-hidden flex items-center justify-center">
+                {pet.foto_url ? (
+                  <img
+                    src={pet.foto_url}
+                    alt={`${pet.nombre} (${pet.especie})`}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLElement).style.display = 'none';
+                    }}
+                  />
+                ) : null}
+                <div className="absolute inset-0 -z-0 bg-gradient-to-tr from-slate-100 to-slate-200 flex items-center justify-center">
+                  <span className="text-5xl select-none" role="img" aria-label={pet.especie}>
+                    {pet.especie.toLowerCase() === 'gato' ? '🐱' : pet.especie.toLowerCase() === 'perro' ? '🐶' : '🐾'}
+                  </span>
+                </div>
+                <div className="absolute top-3 right-3 z-10 drop-shadow-sm">
                   <StatusBadge status={pet.estado_adopcion} />
                 </div>
               </div>

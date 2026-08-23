@@ -16,6 +16,7 @@ export const PetModal: React.FC<PetModalProps> = ({ isOpen, onClose, onSubmit, p
   const [raza, setRaza] = useState(petToEdit?.raza ?? '');
   const [estadoSalud, setEstadoSalud] = useState(petToEdit?.estado_salud ?? 'Vacunado y desparasitado');
   const [estadoAdopcion, setEstadoAdopcion] = useState<AdoptionStatus>(petToEdit?.estado_adopcion ?? 'disponible');
+  const [fotoUrl, setFotoUrl] = useState(petToEdit?.foto_url ?? '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -24,9 +25,9 @@ export const PetModal: React.FC<PetModalProps> = ({ isOpen, onClose, onSubmit, p
   const breedId = useId();
   const healthId = useId();
   const statusId = useId();
+  const photoId = useId();
 
   if (!isOpen) return null;
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +48,7 @@ export const PetModal: React.FC<PetModalProps> = ({ isOpen, onClose, onSubmit, p
         raza: raza.trim() || 'Mestizo',
         estado_salud: estadoSalud.trim() || 'No evaluado',
         estado_adopcion: estadoAdopcion,
+        foto_url: fotoUrl.trim() || null,
       });
       onClose();
     } catch (err: unknown) {
@@ -134,20 +136,36 @@ export const PetModal: React.FC<PetModalProps> = ({ isOpen, onClose, onSubmit, p
           />
         </div>
 
-        <div>
-          <label htmlFor={statusId} className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
-            Estado de Adopción
-          </label>
-          <select
-            id={statusId}
-            value={estadoAdopcion}
-            onChange={(e) => setEstadoAdopcion(e.target.value as AdoptionStatus)}
-            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
-          >
-            <option value="disponible">Disponible</option>
-            <option value="en proceso">En Proceso</option>
-            <option value="adoptado">Adoptado</option>
-          </select>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor={statusId} className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+              Estado de Adopción
+            </label>
+            <select
+              id={statusId}
+              value={estadoAdopcion}
+              onChange={(e) => setEstadoAdopcion(e.target.value as AdoptionStatus)}
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+            >
+              <option value="disponible">Disponible</option>
+              <option value="en proceso">En Proceso</option>
+              <option value="adoptado">Adoptado</option>
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor={photoId} className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+              URL de Fotografía
+            </label>
+            <input
+              id={photoId}
+              type="url"
+              value={fotoUrl}
+              onChange={(e) => setFotoUrl(e.target.value)}
+              placeholder="https://images.unsplash.com/..."
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500"
+            />
+          </div>
         </div>
 
         <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">

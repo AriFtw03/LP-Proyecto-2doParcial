@@ -81,9 +81,21 @@ export const AdoptionModal: React.FC<AdoptionModalProps> = ({ isOpen, onClose, p
 
         <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-3xl select-none" role="img" aria-label={pet.especie}>
-              {pet.especie.toLowerCase() === 'gato' ? '🐱' : '🐶'}
-            </span>
+            <div className="w-12 h-12 rounded-lg bg-slate-200 overflow-hidden shrink-0 border border-slate-200 flex items-center justify-center relative">
+              {pet.foto_url ? (
+                <img
+                  src={pet.foto_url}
+                  alt=""
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLElement).style.display = 'none';
+                  }}
+                />
+              ) : null}
+              <span className="text-2xl select-none absolute inset-0 flex items-center justify-center -z-0">
+                {pet.especie.toLowerCase() === 'gato' ? '🐱' : '🐶'}
+              </span>
+            </div>
             <div>
               <p className="font-bold text-slate-800 text-sm">{pet.nombre}</p>
               <p className="text-xs text-slate-500 font-medium">{pet.especie} · {pet.raza}</p>

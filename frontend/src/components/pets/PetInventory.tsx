@@ -212,9 +212,25 @@ export const PetInventory: React.FC = () => {
               filteredPets.map((pet) => (
                 <tr key={pet.id} className="hover:bg-slate-50/80 transition-colors">
                   <td className="py-3 px-4 font-mono text-xs text-slate-400">#{pet.id}</td>
-                  <td className="py-3 px-4 font-semibold text-slate-800 flex items-center gap-2">
-                    <span>{pet.especie.toLowerCase() === 'gato' ? '🐱' : pet.especie.toLowerCase() === 'perro' ? '🐶' : '🐾'}</span>
-                    <span>{pet.nombre}</span>
+                  <td className="py-3 px-4 font-semibold text-slate-800">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg bg-slate-100 overflow-hidden shrink-0 border border-slate-200 flex items-center justify-center relative">
+                        {pet.foto_url ? (
+                          <img
+                            src={pet.foto_url}
+                            alt=""
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.currentTarget as HTMLElement).style.display = 'none';
+                            }}
+                          />
+                        ) : null}
+                        <span className="text-base select-none absolute inset-0 flex items-center justify-center -z-0">
+                          {pet.especie.toLowerCase() === 'gato' ? '🐱' : pet.especie.toLowerCase() === 'perro' ? '🐶' : '🐾'}
+                        </span>
+                      </div>
+                      <span className="font-semibold text-slate-800">{pet.nombre}</span>
+                    </div>
                   </td>
                   <td className="py-3 px-4 text-slate-600">{pet.especie} · {pet.raza}</td>
                   <td className="py-3 px-4 text-slate-600 max-w-xs truncate font-medium">{pet.estado_salud}</td>
