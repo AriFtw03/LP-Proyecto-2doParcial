@@ -58,6 +58,6 @@ INSERT INTO mascotas (nombre, especie, raza, estado_salud, estado_adopcion, foto
 ('Mia', 'Gato', 'Azul Ruso', 'Tratamiento preventivo al día', 'disponible', 'https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=600&q=80'),
 ('Manchas', 'Perro', 'Dálmata', 'Muy activo, vacunas completas', 'disponible', 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=80'),
 ('Canela', 'Perro', 'Mestizo', 'Recién ingresada al refugio, en evaluación', 'disponible', NULL),
-('Tambor', 'Otro', 'Conejo Blanco', 'Chequeo veterinario aprobado', 'disponible', 'https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&w=600&q=80'),
+('Tambor', 'Otro', 'Conejo Blanco', 'Chequeo veterinario aprobado', 'disponible', 'https://images.unsplash.com/photo-1591382696684-38c427c7547a?auto=format&fit=crop&w=600&q=80'),
 ('Bigotes', 'Gato', 'Mestizo Romano', 'Esterilizado, rescate de parque', 'adoptado', NULL),
 ('Baloo', 'Perro', 'Boyero de Berna', 'Saludable, rescate de montaña', 'disponible', 'https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?auto=format&fit=crop&w=600&q=80');
