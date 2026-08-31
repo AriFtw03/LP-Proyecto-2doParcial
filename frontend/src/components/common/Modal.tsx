@@ -6,9 +6,10 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  maxWidth?: string;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, maxWidth = 'max-w-lg' }) => {
   const titleId = useId();
 
   useEffect(() => {
@@ -44,8 +45,8 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
         }
       }}
     >
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden border border-slate-100">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+      <div className={`bg-white rounded-xl shadow-xl w-full ${maxWidth} max-h-[92vh] flex flex-col overflow-hidden border border-slate-100`}>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 shrink-0">
           <h3 id={titleId} className="text-lg font-semibold text-slate-800">
             {title}
           </h3>
@@ -58,8 +59,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
             <X size={20} aria-hidden="true" />
           </button>
         </div>
-        <div className="p-6">{children}</div>
+        <div className="p-6 overflow-y-auto">{children}</div>
       </div>
     </div>
   );
 };
+

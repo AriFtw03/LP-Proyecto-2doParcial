@@ -38,6 +38,14 @@ classDiagram
         +int mascota_id
         +String nombre_solicitante
         +String correo_contacto
+        +String telefono_contacto
+        +String ciudad_direccion
+        +String tipo_vivienda
+        +boolean tiene_patio_espacio
+        +boolean otras_mascotas
+        +String descripcion_otras_mascotas
+        +String experiencia_previa
+        +String motivo_adopcion
         +String estado_solicitud
         +DateTime fecha_solicitud
     }

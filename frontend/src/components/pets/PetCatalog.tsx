@@ -19,12 +19,12 @@ export const PetCatalog: React.FC<PetCatalogProps> = ({ onAdoptClick }) => {
   const fetchPets = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await petService.getAll('disponible');
-      setPets(data);
+      const data = await petService.getAll();
+      setPets(data.filter((p) => p.estado_adopcion !== 'adoptado'));
       setError(null);
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') return;
-      setError('No se pudo cargar el catálogo de mascotas disponibles.');
+      setError('No se pudo cargar el catálogo de mascotas.');
     } finally {
       setLoading(false);
     }
@@ -33,14 +33,14 @@ export const PetCatalog: React.FC<PetCatalogProps> = ({ onAdoptClick }) => {
   useEffect(() => {
     const controller = new AbortController();
     petService
-      .getAll('disponible', controller.signal)
+      .getAll(undefined, controller.signal)
       .then((data) => {
-        setPets(data);
+        setPets(data.filter((p) => p.estado_adopcion !== 'adoptado'));
         setError(null);
       })
       .catch((err) => {
         if (!(err instanceof Error && err.name === 'AbortError')) {
-          setError('No se pudo cargar el catálogo de mascotas disponibles.');
+          setError('No se pudo cargar el catálogo de mascotas.');
         }
       })
       .finally(() => {
@@ -119,7 +119,7 @@ export const PetCatalog: React.FC<PetCatalogProps> = ({ onAdoptClick }) => {
       <div className="flex items-center justify-between text-xs text-slate-500 px-1 font-medium">
         <span className="flex items-center gap-1.5">
           <Sparkles size={14} className="text-teal-600" />
-          <span>Mostrando <strong>{filteredPets.length}</strong> {filteredPets.length === 1 ? 'mascota disponible' : 'mascotas disponibles'}</span>
+          <span>Mostrando <strong>{filteredPets.length}</strong> {filteredPets.length === 1 ? 'mascota en catálogo' : 'mascotas en catálogo'}</span>
         </span>
         {(searchTerm || filterSpecies !== 'all') && (
           <button
@@ -158,7 +158,7 @@ export const PetCatalog: React.FC<PetCatalogProps> = ({ onAdoptClick }) => {
       {loading ? (
         <div className="text-center py-20 text-slate-400 flex flex-col items-center gap-3">
           <RefreshCw size={28} className="animate-spin text-teal-600" />
-          <span className="text-sm font-medium">Cargando catálogo de mascotas disponibles...</span>
+          <span className="text-sm font-medium">Cargando catálogo de mascotas...</span>
         </div>
       ) : filteredPets.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-xl border border-slate-200 p-8 space-y-3">

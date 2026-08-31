@@ -219,13 +219,13 @@ export const PetInventory: React.FC = () => {
                           <img
                             src={pet.foto_url}
                             alt=""
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover relative z-10"
                             onError={(e) => {
                               (e.currentTarget as HTMLElement).style.display = 'none';
                             }}
                           />
                         ) : null}
-                        <span className="text-base select-none absolute inset-0 flex items-center justify-center -z-0">
+                        <span className="text-base select-none absolute inset-0 flex items-center justify-center z-0 bg-slate-100">
                           {pet.especie.toLowerCase() === 'gato' ? '🐱' : pet.especie.toLowerCase() === 'perro' ? '🐶' : '🐾'}
                         </span>
                       </div>

@@ -22,6 +22,14 @@ entity adopciones {
     * mascota_id : INT <<FK>>
     * nombre_solicitante : VARCHAR(100)
     * correo_contacto : VARCHAR(100)
+    * telefono_contacto : VARCHAR(20)
+    * ciudad_direccion : VARCHAR(150)
+    * tipo_vivienda : ENUM
+    * tiene_patio_espacio : TINYINT(1)
+    * otras_mascotas : TINYINT(1)
+    descripcion_otras_mascotas : VARCHAR(200)
+    * experiencia_previa : ENUM
+    * motivo_adopcion : TEXT
     * estado_solicitud : ENUM
     fecha_solicitud : DATETIME
 }

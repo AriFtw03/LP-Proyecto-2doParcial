@@ -8,6 +8,9 @@ export const adoptionService = {
     return request<AdoptionRequest[]>(`/adopciones.php${query}`, { signal });
   },
 
+  getById: (id: number, signal?: AbortSignal) =>
+    request<AdoptionRequest>(`/adopciones.php?id=${id}`, { signal }),
+
   getByPet: (petId: number, signal?: AbortSignal) =>
     request<AdoptionRequest[]>(`/adopciones.php?mascota_id=${petId}`, { signal }),
 
@@ -23,9 +26,16 @@ export const adoptionService = {
       body: JSON.stringify({ id, estado_solicitud }),
     }),
 
+  update: (id: number, data: Partial<AdoptionInput>) =>
+    request<{ mensaje: string }>('/adopciones.php', {
+      method: 'PUT',
+      body: JSON.stringify({ id, ...data }),
+    }),
+
   delete: (id: number) =>
     request<{ mensaje: string }>('/adopciones.php', {
       method: 'DELETE',
       body: JSON.stringify({ id }),
     }),
 };
+
