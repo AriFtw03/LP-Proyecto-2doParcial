@@ -1,0 +1,39 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Arial
+skinparam roundCorner 8
+skinparam shadowing false
+
+entity mascotas {
+    * id : INT <<PK, AUTO_INCREMENT>>
+    --
+    * nombre : VARCHAR(100)
+    * especie : VARCHAR(50)
+    raza : VARCHAR(50)
+    estado_salud : VARCHAR(100)
+    * estado_adopcion : ENUM
+    foto_url : VARCHAR(255)
+    fecha_ingreso : DATETIME
+}
+
+entity adopciones {
+    * id : INT <<PK, AUTO_INCREMENT>>
+    --
+    * mascota_id : INT <<FK>>
+    * nombre_solicitante : VARCHAR(100)
+    * correo_contacto : VARCHAR(100)
+    * estado_solicitud : ENUM
+    fecha_solicitud : DATETIME
+}
+
+entity turnos {
+    * id : INT <<PK, AUTO_INCREMENT>>
+    --
+    * nombre_voluntario : VARCHAR(100)
+    * tarea_asignada : VARCHAR(150)
+    * fecha_turno : DATE
+    hora_inicio : TIME
+}
+
+mascotas ||--o{ adopciones : "recibe solicitudes (ON DELETE CASCADE)"
+@enduml

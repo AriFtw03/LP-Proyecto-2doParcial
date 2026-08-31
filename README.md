@@ -92,11 +92,20 @@ La conexión a base de datos lee variables de entorno del sistema con valores pr
 ### Instrucciones de Ejecución
 
 #### 1. Base de Datos
-Importar el archivo `schema.sql` en MariaDB/MySQL:
+Iniciar el servicio de base de datos e importar el archivo `schema.sql`.
 
+**En Linux:**
 ```bash
+sudo systemctl start mariadb
 mysql -u root -p < schema.sql
 ```
+
+**En Windows:**
+Iniciar MySQL/MariaDB desde el panel de control de XAMPP/WAMP (o asegurar que el servicio nativo esté activo). Luego ejecutar:
+```cmd
+mysql -u root -p < schema.sql
+```
+*(Nota: Requiere tener `mysql` agregado en las variables de entorno).*
 
 #### 2. Ejecutar Servidor Backend (PHP)
 Desde la raíz del repositorio:

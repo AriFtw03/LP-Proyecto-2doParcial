@@ -1,0 +1,46 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Arial
+skinparam roundCorner 8
+skinparam shadowing false
+
+actor "Usuario" as User
+participant "AdoptionModal (React)" as UI
+participant "adoptionService.ts" as Service
+participant "adopciones.php" as API
+database "MariaDB (refugio_db)" as DB
+
+User -> UI : Enviar postulación
+activate UI
+
+UI -> Service : createAdoption(payload)
+activate Service
+
+Service -> API : POST /api/adopciones.php (JSON)
+activate API
+
+API -> DB : beginTransaction()
+activate DB
+
+API -> DB : SELECT estado_adopcion FROM mascotas WHERE id=? FOR UPDATE
+note right: Bloqueo pesimista de fila
+
+alt Mascota disponible
+    API -> DB : UPDATE mascotas SET estado_adopcion='en proceso'
+    API -> DB : INSERT INTO adopciones (...)
+    API -> DB : commit()
+    API --> Service : HTTP 201 Created
+    Service --> UI : Notifica éxito
+    UI --> User : Mensaje de confirmación
+else Mascota no disponible
+    API -> DB : rollBack()
+    API --> Service : HTTP 400 Bad Request
+    Service --> UI : Notifica error
+    UI --> User : Alerta controlada
+end
+
+deactivate DB
+deactivate API
+deactivate Service
+deactivate UI
+@enduml

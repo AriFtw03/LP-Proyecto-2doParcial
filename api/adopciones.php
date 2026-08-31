@@ -268,7 +268,7 @@ switch ($metodo) {
             $cantOtras = (int) $stmtOtras->fetchColumn();
 
             if ($cantOtras === 0) {
-                $stmtM = $pdo->prepare("UPDATE mascotas SET estado_adopcion = 'disponible' WHERE id = ? AND estado_adopcion != 'adoptado'");
+                $stmtM = $pdo->prepare("UPDATE mascotas SET estado_adopcion = 'disponible' WHERE id = ?");
                 $stmtM->execute([$mascotaId]);
             }
 

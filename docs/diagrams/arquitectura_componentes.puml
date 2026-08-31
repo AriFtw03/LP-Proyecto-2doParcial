@@ -1,0 +1,31 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Arial
+skinparam roundCorner 8
+skinparam shadowing false
+
+package "Frontend SPA (React 19 + TypeScript)" {
+    [Vistas Modulares: PetCatalog, AdoptionList, ShiftCalendar] as UI
+    [Servicios HTTP Tipados: petService, adoptionService, shiftService] as Services
+    UI --> Services
+}
+
+package "Servidor de Desarrollo (Vite)" {
+    [Reverse Proxy /api (:5173)] as Proxy
+}
+
+Services --> Proxy : HTTP JSON
+
+package "Backend API RESTful (PHP 8.x)" {
+    [Módulos: mascotas.php, adopciones.php, turnos.php] as API
+    [Conexión: conexion.php (PDO nativo)] as PDO
+    Proxy --> API : GET, POST, PUT, DELETE
+    API --> PDO
+}
+
+database "MariaDB (refugio_db)" {
+    [mascotas, adopciones, turnos] as DB
+}
+
+PDO --> DB : Sentencias Preparadas (PDO::ATTR_EMULATE_PREPARES=false)
+@enduml
